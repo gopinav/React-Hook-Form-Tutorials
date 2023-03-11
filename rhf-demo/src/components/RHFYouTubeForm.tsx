@@ -1,11 +1,15 @@
 import { useForm } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
+
+let count = 0;
 
 export const RHFYouTubeForm = () => {
   const form = useForm();
-  const { register } = form;
+  const { register, control } = form;
+  count++;
   return (
     <div>
-      <h1>YouTube Form</h1>
+      <h1>YouTube Form ({count})</h1>
 
       <form>
         <label htmlFor="username">Username</label>
@@ -19,6 +23,8 @@ export const RHFYouTubeForm = () => {
 
         <button>Submit</button>
       </form>
+
+      <DevTool control={control} />
     </div>
   );
 };

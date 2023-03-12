@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
-let count = 0;
+let renderCount = 0;
 
 type FormValues = {
   username: string;
@@ -18,10 +18,10 @@ export const RHFYouTubeForm = () => {
     console.log("Form submitted", data);
   };
 
-  count++;
+  renderCount++;
   return (
     <div>
-      <h1>YouTube Form ({count})</h1>
+      <h1>YouTube Form ({renderCount / 2})</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="username">Username</label>

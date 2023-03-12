@@ -11,7 +11,8 @@ type FormValues = {
 
 export const RHFYouTubeForm = () => {
   const form = useForm<FormValues>();
-  const { register, control, handleSubmit } = form;
+  const { register, control, handleSubmit, formState } = form;
+  const { errors } = formState;
 
   const onSubmit = (data: FormValues) => {
     console.log("Form submitted", data);
@@ -28,9 +29,10 @@ export const RHFYouTubeForm = () => {
           type="text"
           id="username"
           {...register("username", {
-            required: "Username is required",
+            required: { value: true, message: "Username is required" },
           })}
         />
+        <p className="error">{errors.username?.message}</p>
 
         <label htmlFor="email">E-mail</label>
         <input
@@ -44,9 +46,17 @@ export const RHFYouTubeForm = () => {
             },
           })}
         />
+        <p className="error">{errors.email?.message}</p>
 
         <label htmlFor="channel">Channel</label>
-        <input type="text" id="channel" {...register("channel")} />
+        <input
+          type="text"
+          id="channel"
+          {...register("channel", {
+            required: { value: true, message: "Channel is required" },
+          })}
+        />
+        <p className="error">{errors.channel?.message}</p>
 
         <button>Submit</button>
       </form>

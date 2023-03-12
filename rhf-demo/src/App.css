@@ -23,5 +23,11 @@ input[type="email"] {
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  text-align: left;
   margin-bottom: 20px;
 }

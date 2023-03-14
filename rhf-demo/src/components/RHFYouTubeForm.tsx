@@ -32,7 +32,15 @@ export const RHFYouTubeForm = () => {
       dob: new Date(),
     },
   });
-  const { register, control, handleSubmit, formState, watch, getValues } = form;
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState,
+    watch,
+    getValues,
+    setValue,
+  } = form;
   const { errors } = formState;
 
   const onSubmit = (data: FormValues) => {
@@ -41,6 +49,14 @@ export const RHFYouTubeForm = () => {
 
   const handleGetValues = () => {
     console.log("Get values", getValues("username"));
+  };
+
+  const handleSetValue = () => {
+    setValue("username", "", {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    });
   };
 
   // const watchUsername = watch("username");
@@ -151,6 +167,9 @@ export const RHFYouTubeForm = () => {
 
         <button type="button" onClick={handleGetValues}>
           Get values
+        </button>
+        <button type="button" onClick={handleSetValue}>
+          Set value
         </button>
         <button>Submit</button>
       </form>

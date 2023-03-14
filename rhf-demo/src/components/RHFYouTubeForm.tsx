@@ -138,7 +138,7 @@ export const RHFYouTubeForm = () => {
           id="address-line2"
           {...register("address.line2", {
             required: { value: true, message: "Address is required" },
-            disabled: true,
+            disabled: watch("address.line1") === "",
           })}
         />
         <p className="error">{errors.address?.line2?.message}</p>

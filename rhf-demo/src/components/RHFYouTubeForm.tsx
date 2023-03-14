@@ -10,7 +10,13 @@ type FormValues = {
 };
 
 export const RHFYouTubeForm = () => {
-  const form = useForm<FormValues>();
+  const form = useForm<FormValues>({
+    defaultValues: {
+      username: "Batman",
+      email: "",
+      channel: "",
+    },
+  });
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
 

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
@@ -31,18 +32,27 @@ export const RHFYouTubeForm = () => {
       dob: new Date(),
     },
   });
-  const { register, control, handleSubmit, formState } = form;
+  const { register, control, handleSubmit, formState, watch } = form;
   const { errors } = formState;
 
   const onSubmit = (data: FormValues) => {
     console.log("Form submitted", data);
   };
 
+  // const watchUsername = watch("username");
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) =>
+      console.log(value, name, type)
+    );
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
   renderCount++;
   return (
     <div>
       <h1>YouTube Form ({renderCount / 2})</h1>
 
+      {/* <h2>Watched value: {watchUsername}</h2> */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="username">Username</label>
         <input
@@ -108,6 +118,7 @@ export const RHFYouTubeForm = () => {
           id="address-line2"
           {...register("address.line2", {
             required: { value: true, message: "Address is required" },
+            disabled: true,
           })}
         />
         <p className="error">{errors.address?.line2?.message}</p>

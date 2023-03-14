@@ -12,6 +12,8 @@ type FormValues = {
     line2: string;
   };
   addressArray: string[];
+  age: number;
+  dob: Date;
 };
 
 export const RHFYouTubeForm = () => {
@@ -25,6 +27,8 @@ export const RHFYouTubeForm = () => {
         line2: "",
       },
       addressArray: ["", ""],
+      age: 0,
+      dob: new Date(),
     },
   });
   const { register, control, handleSubmit, formState } = form;
@@ -107,6 +111,28 @@ export const RHFYouTubeForm = () => {
           })}
         />
         <p className="error">{errors.address?.line2?.message}</p>
+
+        <label htmlFor="age">Age</label>
+        <input
+          type="number"
+          id="age"
+          {...register("age", {
+            valueAsNumber: true,
+            required: { value: true, message: "Age is required" },
+          })}
+        />
+        <p className="error">{errors.age?.message}</p>
+
+        <label htmlFor="dob">Date of Birth</label>
+        <input
+          type="date"
+          id="dob"
+          {...register("dob", {
+            valueAsDate: true,
+            required: { value: true, message: "Date of Birth is required" },
+          })}
+        />
+        <p className="error">{errors.dob?.message}</p>
 
         <button>Submit</button>
       </form>

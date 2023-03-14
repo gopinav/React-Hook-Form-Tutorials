@@ -32,11 +32,15 @@ export const RHFYouTubeForm = () => {
       dob: new Date(),
     },
   });
-  const { register, control, handleSubmit, formState, watch } = form;
+  const { register, control, handleSubmit, formState, watch, getValues } = form;
   const { errors } = formState;
 
   const onSubmit = (data: FormValues) => {
     console.log("Form submitted", data);
+  };
+
+  const handleGetValues = () => {
+    console.log("Get values", getValues("username"));
   };
 
   // const watchUsername = watch("username");
@@ -145,6 +149,9 @@ export const RHFYouTubeForm = () => {
         />
         <p className="error">{errors.dob?.message}</p>
 
+        <button type="button" onClick={handleGetValues}>
+          Get values
+        </button>
         <button>Submit</button>
       </form>
 

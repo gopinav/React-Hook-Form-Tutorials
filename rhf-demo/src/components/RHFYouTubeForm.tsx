@@ -7,6 +7,11 @@ type FormValues = {
   username: string;
   email: string;
   channel: string;
+  address: {
+    line1: string;
+    line2: string;
+  };
+  addressArray: string[];
 };
 
 export const RHFYouTubeForm = () => {
@@ -15,6 +20,11 @@ export const RHFYouTubeForm = () => {
       username: "Batman",
       email: "",
       channel: "",
+      address: {
+        line1: "",
+        line2: "",
+      },
+      addressArray: ["", ""],
     },
   });
   const { register, control, handleSubmit, formState } = form;
@@ -77,6 +87,26 @@ export const RHFYouTubeForm = () => {
           })}
         />
         <p className="error">{errors.channel?.message}</p>
+
+        <label htmlFor="address-line1">Address Line 1</label>
+        <input
+          type="text"
+          id="address-line1"
+          {...register("address.line1", {
+            required: { value: true, message: "Address is required" },
+          })}
+        />
+        <p className="error">{errors.address?.line1?.message}</p>
+
+        <label htmlFor="address-line2">Address Line 2</label>
+        <input
+          type="text"
+          id="address-line2"
+          {...register("address.line2", {
+            required: { value: true, message: "Address is required" },
+          })}
+        />
+        <p className="error">{errors.address?.line2?.message}</p>
 
         <button>Submit</button>
       </form>

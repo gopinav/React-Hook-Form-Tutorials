@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
 let renderCount = 0;
@@ -38,13 +38,34 @@ export const RHFYouTubeForm = () => {
     watch,
     getValues,
     setValue,
+    reset,
   } = form;
-  const { errors, isDirty, touchedFields, dirtyFields } = formState;
 
-  console.log({ isDirty, touchedFields, dirtyFields });
+  const {
+    errors,
+    isDirty,
+    touchedFields,
+    dirtyFields,
+    isValid,
+    isSubmitting,
+    isSubmitted,
+    isSubmitSuccessful,
+    submitCount,
+  } = formState;
+
+  console.log({ errors, isDirty, touchedFields, dirtyFields, isValid });
+  console.log({ isSubmitting, isSubmitted, isSubmitSuccessful, submitCount });
 
   const onSubmit = (data: FormValues) => {
     console.log("Form submitted", data);
+  };
+
+  const onError = (errors: FieldErrors<FormValues>) => {
+    console.log("Form errors", errors);
+  };
+
+  const onReset = () => {
+    reset();
   };
 
   const handleGetValues = () => {
@@ -67,13 +88,19 @@ export const RHFYouTubeForm = () => {
     return () => subscription.unsubscribe();
   }, [watch]);
 
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
+
   renderCount++;
   return (
     <div>
       <h1>YouTube Form ({renderCount / 2})</h1>
 
       {/* <h2>Watched value: {watchUsername}</h2> */}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit, onError)}>
         <label htmlFor="username">Username</label>
         <input
           type="text"
@@ -171,7 +198,10 @@ export const RHFYouTubeForm = () => {
         <button type="button" onClick={handleSetValue}>
           Set value
         </button>
-        <button>Submit</button>
+        <button type="button" onClick={onReset}>
+          Reset
+        </button>
+        <button disabled={!isDirty || !isValid}>Submit</button>
       </form>
 
       <DevTool control={control} />

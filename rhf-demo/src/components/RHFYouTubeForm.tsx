@@ -12,7 +12,6 @@ type FormValues = {
     line1: string;
     line2: string;
   };
-  addressArray: string[];
   age: number;
   dob: Date;
 };
@@ -27,7 +26,6 @@ export const RHFYouTubeForm = () => {
         line1: "",
         line2: "",
       },
-      addressArray: ["", ""],
       age: 0,
       dob: new Date(),
     },
@@ -41,7 +39,9 @@ export const RHFYouTubeForm = () => {
     getValues,
     setValue,
   } = form;
-  const { errors } = formState;
+  const { errors, isDirty, touchedFields, dirtyFields } = formState;
+
+  console.log({ isDirty, touchedFields, dirtyFields });
 
   const onSubmit = (data: FormValues) => {
     console.log("Form submitted", data);

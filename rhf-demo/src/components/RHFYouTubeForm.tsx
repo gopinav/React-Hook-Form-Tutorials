@@ -29,6 +29,7 @@ export const RHFYouTubeForm = () => {
       age: 0,
       dob: new Date(),
     },
+    mode: "onTouched",
   });
   const {
     register,
@@ -39,6 +40,7 @@ export const RHFYouTubeForm = () => {
     getValues,
     setValue,
     reset,
+    trigger,
   } = form;
 
   const {
@@ -134,6 +136,13 @@ export const RHFYouTubeForm = () => {
                   "This domain is not supported"
                 );
               },
+              emailAvailable: async (fieldValue) => {
+                const response = await fetch(
+                  `https://jsonplaceholder.typicode.com/users?email=${fieldValue}`
+                );
+                const data = await response.json();
+                return data.length === 0 || "Email already exists";
+              },
             },
           })}
         />
@@ -200,6 +209,9 @@ export const RHFYouTubeForm = () => {
         </button>
         <button type="button" onClick={onReset}>
           Reset
+        </button>
+        <button type="button" onClick={() => trigger("channel")}>
+          Validate channel
         </button>
         <button disabled={!isDirty || !isValid}>Submit</button>
       </form>

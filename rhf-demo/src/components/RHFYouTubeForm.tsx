@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { FieldErrors, useForm } from "react-hook-form";
+import { FieldErrors, useForm, useFieldArray } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
 let renderCount = 0;
@@ -14,23 +14,34 @@ type FormValues = {
   };
   age: number;
   dob: Date;
+  phone: {
+    number: string;
+  }[];
 };
 
 export const RHFYouTubeForm = () => {
   const form = useForm<FormValues>({
-    defaultValues: {
-      username: "Batman",
-      email: "",
-      channel: "",
-      address: {
-        line1: "",
-        line2: "",
-      },
-      age: 0,
-      dob: new Date(),
+    defaultValues: async () => {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users/1"
+      );
+      const data = await response.json();
+      return {
+        username: "Batman",
+        email: data.email,
+        channel: "",
+        address: {
+          line1: "",
+          line2: "",
+        },
+        age: 0,
+        dob: new Date(),
+        phone: [{ number: "" }],
+      };
     },
     mode: "onTouched",
   });
+
   const {
     register,
     control,
@@ -42,6 +53,11 @@ export const RHFYouTubeForm = () => {
     reset,
     trigger,
   } = form;
+
+  const { fields, append, remove } = useFieldArray({
+    name: "phone",
+    control,
+  });
 
   const {
     errors,
@@ -213,6 +229,36 @@ export const RHFYouTubeForm = () => {
             })}
           />
           <p className="error">{errors.dob?.message}</p>
+        </div>
+
+        <div>
+          <label>List of phone numbers</label>
+          <div>
+            {fields.map((field, index) => (
+              <div className="form-control" key={field.id}>
+                <input
+                  type="text"
+                  {...register(`phone.${index}.number` as const)}
+                />
+
+                {index > 0 && (
+                  <button type="button" onClick={() => remove(index)}>
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() =>
+                append({
+                  number: "",
+                })
+              }
+            >
+              Add phone number
+            </button>
+          </div>
         </div>
 
         <button type="button" onClick={handleGetValues}>
